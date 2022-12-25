@@ -1,14 +1,19 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
+#include <string>
+#include <regex>
+
+
 class Function
 {
     public:
-    std::string func;
-    explicit Function(const std::string f);
+    explicit Function(const std::string& f);
     const std::string& printFunc() const;
 
     private:
+    std::string func;
+
     // this class represents a Term in a function, such as 2x^2 in f(x)=2x^2+5x+2
     class Term
     {
@@ -29,5 +34,6 @@ class Function
             }
     };
 };
+
 
 #endif
