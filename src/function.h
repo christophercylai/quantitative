@@ -12,7 +12,8 @@ class Function
     const std::string& printFunc() const;
 
     private:
-    std::string func;
+    std::string func_str = "";
+    std::vector<std::string> polynomial;
 
     // this class represents a Term in a function, such as 2x^2 in f(x)=2x^2+5x+2
     class Term

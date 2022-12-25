@@ -6,17 +6,21 @@ namespace py = pybind11;
 
 
 Function::Function(const std::string& f) {
+    std::string func = f;
     std::smatch match;
-    const std::regex get_term("^[+-]?[0-9]*[A-Za-z]{1}[^]?[0-9]*");
-    //const std::regex get_multiplier("^[+-]?[0-9]");
-    //const std::regex get_exponent("[^]+[0-9]+");
-    std::regex_search(f, match, get_term);
-    for (std::string m : match) {
-        func = m;
+    std::regex term_pattern("([-]?[0-9]*[a-zA-Z]\\^?[0-9]*)");
+    while (std::regex_search(func, match, term_pattern)) {
+        polynomial.emplace_back(match.str(0));
+        func_str = func_str + match.str(0);
+        func = match.suffix().str();
+        term_pattern = "([+-][0-9]*[a-zA-Z]\\^?[0-9]*)";
     }
-    assertTrue(!func.empty(), f+" is not a valid function");
+    for (auto s : polynomial) {
+        printMsg(s);
+    }
+    assertTrue(!func_str.empty(), f+" is not a valid function");
 }
 
 const std::string& Function::printFunc() const {
-    return func;
+    return func_str;
 }
