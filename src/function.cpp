@@ -14,6 +14,17 @@ Function::Function(const std::string& f) {
     int multiplier_num;
     bool term_exists = false;
 
+    // lambda for returning the correct func string to the while loop
+    auto funcReturn = [&match, &func]() {
+        if (!match.str(4).empty()) {
+            func = match.suffix().str();
+        } else {
+            // if ^ does not exists, add the 5th regex
+            // group back to the remaining of func
+            func = match.str(5) + match.suffix().str();
+        }
+    };
+
     while (std::regex_search(func, match, term_pattern)) {
         sign = '+';
         multiplier = "1";
@@ -27,6 +38,11 @@ Function::Function(const std::string& f) {
         if (!match.str(2).empty()) {
             term_exists = true;
             multiplier = match.str(2);
+        }
+        if (multiplier == "0") {
+            // skip multiplier 0
+            funcReturn();
+            continue;
         }
         if (!match.str(3).empty()) {
             term_exists = true;
@@ -43,13 +59,7 @@ Function::Function(const std::string& f) {
         }
         const Term each_term(multiplier_num, std::stoi(exponent), variable);
         polynomial.emplace_back(each_term);
-
-        if (!match.str(4).empty()) {
-            func = match.suffix().str();
-        } else {
-            // if ^ does not exists, add the 5th regex group back to the remaining of func
-            func = match.str(5) + match.suffix().str();
-        }
+        funcReturn();
 
         // term_pattern for the 2nd term and onward
         term_pattern = "([+-])([0-9]*)([a-zA-Z]?)(\\^)?(-?[0-9]*)";
@@ -65,6 +75,14 @@ void Function::sortPolynomial() {
     std::vector<Term>::iterator s_iter;
     bool emplaced, replace;
 
+    // lambda for omitting Terms with multiplier=0
+    auto omitZero = [](const int& multi) -> const bool {
+        if (multi == 0) {
+            return false;
+        }
+        return true;
+    };
+
     for (auto p = polynomial.begin()+1; p != polynomial.end(); p++) {
         emplaced = false;
         replace = false;
@@ -77,18 +95,26 @@ void Function::sortPolynomial() {
                 } else {
                     s_iter = s-1;
                 }
-                continue;
+                break;
             }
             if ((*p).degree == (*s).degree && (*p).variable == (*s).variable) {
                 replace = true;
                 s_iter = s;
-                continue;
+                break;
             }
         }
+
         if (replace) {
-            sorted_poly.at(std::distance(sorted_poly.begin(), s_iter)) = (*p).addTerm(*s_iter);
+            const Term sum_term((*p).addTerm(*s_iter));
+            if (!omitZero(sum_term.multiplier)) {
+                sorted_poly.erase(s_iter);
+                continue;
+            }
+            sorted_poly.at(std::distance(sorted_poly.begin(), s_iter)) = sum_term;
             continue;
         }
+
+        if (!omitZero((*p).multiplier)) {continue;}
         if (emplaced) {
             sorted_poly.emplace(s_iter, *p);
         } else {
@@ -100,8 +126,10 @@ void Function::sortPolynomial() {
 
 const std::string& Function::getFuncStr(const bool& verbose=false) {
     func_str = "";
+    std::string term_str;
     for (Term t : polynomial) {
-        func_str += t.getTermStr(verbose) + " ";
+        term_str = t.getTermStr(verbose);
+        func_str += term_str.empty() ? "" : term_str + " ";
     }
 
     // beautification
