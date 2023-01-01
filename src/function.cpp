@@ -20,15 +20,12 @@ Function::Function(const std::string& f) {
         // handling regex groups
         if (!match.str(1).empty()) {
             multiplier = match.str(1);
-            func_str = func_str + match.str(1);
         }
         if (!match.str(2).empty()) {
             exponent = "1";
             variable = match.str(2)[0];
-            func_str = func_str + match.str(2);
             if (!match.str(3).empty()) {
                 exponent = match.str(3);
-                func_str = func_str + "^" + match.str(3);
             }
         }
 
@@ -38,16 +35,19 @@ Function::Function(const std::string& f) {
         term_pattern = "([+-][0-9]*)([a-zA-Z]?)\\^?([0-9]*)";
     }
 
-    assertTrue(!func_str.empty(), f+" is not a valid function");
+    assertTrue(!polynomial.empty(), f+" is not a valid function");
+}
+
+const std::string& Function::getFuncStr() {
+    for (Term t : polynomial) {
+        func_str += t.getTermStr();
+    }
 
     // beautification: remove plus sign at the beginning of the func_str
     const char first_char = func_str[0];
     if (first_char == '+') {
         func_str.erase(0, 1);
     }
-}
 
-
-const std::string& Function::getFuncStr() const {
     return func_str;
 }

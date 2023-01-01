@@ -9,7 +9,7 @@ class Function
 {
     public:
     explicit Function(const std::string& f);
-    const std::string& getFuncStr() const;
+    const std::string& getFuncStr();
 
     private:
     std::string func_str = "";
