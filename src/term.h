@@ -5,12 +5,13 @@
 class Term
 {
     public:
-    explicit Term(const int& m, const int& d);
+    explicit Term(const int& m, const int& d, const char& v);
     Term getPrime();
 
     private:
     int degree;
     int multiplier;
+    char variable;
 };
 
 

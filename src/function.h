@@ -2,7 +2,6 @@
 #define FUNCTION_H
 
 #include <string>
-#include <regex>
 #include "term.h"
 
 
