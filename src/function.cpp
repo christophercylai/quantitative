@@ -56,22 +56,38 @@ Function::Function(const std::string& f) {
     }
     assertTrue(term_exists, f+" is not a valid function");
     sortPolynomial();
+    polynomial.shrink_to_fit();
 }
 
 void Function::sortPolynomial() {
     std::vector<Term> sorted_poly;
     sorted_poly.emplace_back(polynomial.front());
     std::vector<Term>::iterator s_iter;
-    bool emplaced;
+    bool emplaced, replace;
 
     for (auto p = polynomial.begin()+1; p != polynomial.end(); p++) {
         emplaced = false;
+        replace = false;
         for (auto s = sorted_poly.begin(); s != sorted_poly.end(); s++) {
             if ((*p).degree > (*s).degree) {
-                s_iter = s;
                 emplaced = true;
+                if (s == sorted_poly.begin()) {
+                    // this avoids s_iter from becoming -1
+                    s_iter = s;
+                } else {
+                    s_iter = s-1;
+                }
                 continue;
             }
+            if ((*p).degree == (*s).degree && (*p).variable == (*s).variable) {
+                replace = true;
+                s_iter = s;
+                continue;
+            }
+        }
+        if (replace) {
+            sorted_poly.at(std::distance(sorted_poly.begin(), s_iter)) = (*p).addTerm(*s_iter);
+            continue;
         }
         if (emplaced) {
             sorted_poly.emplace(s_iter, *p);

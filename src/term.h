@@ -13,7 +13,8 @@ class Term
 
     explicit Term(const int& m, const int& d, const char& v);
     const std::string getTermStr(const bool& verbose) const;
-    Term getPrime();
+    const Term addTerm(const Term& term) const;
+    const Term getPrime() const;
 };
 
 
