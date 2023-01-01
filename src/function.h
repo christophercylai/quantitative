@@ -9,10 +9,10 @@ class Function
 {
     public:
     explicit Function(const std::string& f);
-    const std::string& getFuncStr();
+    const std::string& getFuncStr(const bool& verbose);
 
     private:
-    std::string func_str = "";
+    std::string func_str;
     std::vector<Term> polynomial;
 };
 

@@ -13,5 +13,8 @@ PYBIND11_MODULE(quant, m) {
 
     py::class_<Function>(m, "Function")
         .def(py::init<const std::string&>())
-        .def("getFuncStr", &Function::getFuncStr, "Print the function");
+        .def(
+            "getFuncStr", &Function::getFuncStr, "Print the function",
+            py::arg("verbose") = false
+        );
 }

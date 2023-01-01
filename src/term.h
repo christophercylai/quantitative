@@ -8,7 +8,7 @@ class Term
 {
     public:
     explicit Term(const int& m, const int& d, const char& v);
-    const std::string getTermStr() const;
+    const std::string getTermStr(const bool& verbose) const;
     Term getPrime();
 
     private:
