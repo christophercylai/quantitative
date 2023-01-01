@@ -55,6 +55,31 @@ Function::Function(const std::string& f) {
         term_pattern = "([+-])([0-9]*)([a-zA-Z]?)(\\^)?(-?[0-9]*)";
     }
     assertTrue(term_exists, f+" is not a valid function");
+    sortPolynomial();
+}
+
+void Function::sortPolynomial() {
+    std::vector<Term> sorted_poly;
+    sorted_poly.emplace_back(polynomial.front());
+    std::vector<Term>::iterator s_iter;
+    bool emplaced;
+
+    for (auto p = polynomial.begin()+1; p != polynomial.end(); p++) {
+        emplaced = false;
+        for (auto s = sorted_poly.begin(); s != sorted_poly.end(); s++) {
+            if ((*p).degree > (*s).degree) {
+                s_iter = s;
+                emplaced = true;
+                continue;
+            }
+        }
+        if (emplaced) {
+            sorted_poly.emplace(s_iter, *p);
+        } else {
+            sorted_poly.emplace_back(*p);
+        }
+    }
+    polynomial = sorted_poly;
 }
 
 const std::string& Function::getFuncStr(const bool& verbose=false) {

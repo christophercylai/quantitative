@@ -12,7 +12,8 @@ const std::string Term::getTermStr(const bool& verbose=false) const{
     std::string term_str = "";
     if (verbose) {
         // prints out everything for debugging
-        term_str = std::to_string(multiplier) + std::string(1, variable) + "^" + std::to_string(degree);
+        if (multiplier > 0) {term_str += "+";}
+        term_str += std::to_string(multiplier) + std::string(1, variable) + "^" + std::to_string(degree);
         return term_str;
     }
 

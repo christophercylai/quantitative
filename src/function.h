@@ -12,6 +12,7 @@ class Function
     const std::string& getFuncStr(const bool& verbose);
 
     private:
+    void sortPolynomial();
     std::string func_str;
     std::vector<Term> polynomial;
 };
