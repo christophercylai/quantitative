@@ -2,7 +2,6 @@
 #define FUNCTION_H
 
 #include <string>
-#include <regex>
 #include "term.h"
 
 
@@ -10,10 +9,11 @@ class Function
 {
     public:
     explicit Function(const std::string& f);
-    const std::string& getFuncStr() const;
+    const std::string& getFuncStr(const bool& verbose);
 
     private:
-    std::string func_str = "";
+    void sortPolynomial();
+    std::string func_str;
     std::vector<Term> polynomial;
 };
 

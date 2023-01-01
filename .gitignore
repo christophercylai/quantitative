@@ -1,3 +1,6 @@
 /.venv
 *.so
 *.swp
+*.o
+# vim session extension
+*.mks
