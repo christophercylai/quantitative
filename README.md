@@ -7,10 +7,9 @@
 ## Required Packages
 * gcc-12.2.1
 * python3-devel-3.10.9
-* pybind11==2.10.1
 * autoconf-2.71-3
 * automake-1.16.5-7
-* Make 4.3
+* Make-4.3
 
 ## Initial Setup
 ```
