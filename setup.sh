@@ -2,10 +2,12 @@
 
 set -e
 
-if [[ ! -d ".venv" ]]; then
+if [[ ! -d "../.venv" ]]; then
+    pushd ..
     python -m venv .venv
     source .venv/bin/activate
     pip install pybind11==2.10.1
+    popd
 fi
 
 export PY_FLAGS=$(python3 -m pybind11 --includes)
