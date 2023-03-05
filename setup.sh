@@ -26,4 +26,4 @@ make
 cp src/.libs/libquant.so.0.0.0 ${quantdir}
 cp ${rootdir}/quant.sh ${quantdir}
 cd ${quantdir}
-ln -s libquant.so.0.0.0 quant$(python3-config --extension-suffix)
+ln -fs libquant.so.0.0.0 quant$(python3-config --extension-suffix)

@@ -12,10 +12,16 @@
 * libtool-2.4.7-1
 * Make-4.3
 
-## Initial Setup
+## Setup
 ```
-# Setup Python virutalenv and install pybind11
+# 1. Setup Python virutalenv and install pybind11 in ../quant
+# 2. run 'autotools', 'configure' and 'make' to generate the quant python library
 ./setup.sh
+
+# quant python library ready to be used in ../quant
+cd ../quant
+./quant.sh
+>>> import quant
 ```
 
 ## Development Ettiquette
