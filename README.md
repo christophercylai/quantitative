@@ -9,6 +9,7 @@
 * python3-devel-3.10.9
 * autoconf-2.71-3
 * automake-1.16.5-7
+* libtool-2.4.7-1
 * Make-4.3
 
 ## Initial Setup

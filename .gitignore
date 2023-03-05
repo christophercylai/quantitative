@@ -1,6 +1,15 @@
 /.venv
-*.so
 *.swp
+
+# autotool
+*.so
 *.o
+*.in
+*.m4
+*.cache
+build
+configure
+auxiliary/
+
 # vim session extension
 *.mks
